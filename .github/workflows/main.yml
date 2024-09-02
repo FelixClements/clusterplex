@@ -59,7 +59,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ghcr.io/pabloromeo/clusterplex_pms
+            ghcr.io/FelixClements/clusterplex_pms
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
@@ -110,7 +110,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ghcr.io/pabloromeo/clusterplex_worker
+            ghcr.io/FelixClements/clusterplex_worker
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
@@ -161,7 +161,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ghcr.io/pabloromeo/clusterplex_orchestrator
+            ghcr.io/FelixClements/clusterplex_orchestrator
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
