@@ -542,7 +542,7 @@ module.exports.init = (server) => {
 
         job.addTask(request.type, newPayload);
     }
-}
+  }
 
   function getArgsValueOf(arr, key) {
     let i = arr.indexOf(key);
