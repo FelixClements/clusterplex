@@ -510,7 +510,8 @@ module.exports.init = (server) => {
 
     console.log(`All Args => ${args}`);
 
-    let segmentTime = parseInt(getArgsValueOf(args, "-segment_time"));
+    //let segmentTime = parseInt(getArgsValueOf(args, "-segment_time"));
+    let segmentTime = 10; //set value to 10 seconds 
     let ss = parseInt(getArgsValueOf(args, "-ss"));
     let minSegDuration = parseInt(getArgsValueOf(args, "-min_seg_duration"));
     let skipToSegment = parseInt(getArgsValueOf(args, "-skip_to_segment"));
