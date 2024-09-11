@@ -1,6 +1,5 @@
 const { v4: uuid } = require("uuid");
 const STREAM_SPLITTING = process.env.STREAM_SPLITTING || "OFF";
-const SEGMENT_BATCH_SIZE = process.env.SEGMENT_BATCH_SIZE || 2; // Control the number of active segments
 
 // selection strategies:
 // RR : Round-Robin
@@ -504,47 +503,54 @@ module.exports.init = (server) => {
     job.addTask(request.type, request.payload);
   }
 
-function multiWorkerTaskBuilder(job) {
+  function multiWorkerTaskBuilder(job) {
     console.log("Creating multiple tasks for the job");
     let request = job.payload;
     let args = request.payload.args;
 
     console.log(`All Args => ${args}`);
 
-  let segmentTime = parseInt(getArgsValueOf(args, "-segment_time"));
-  let ss = parseInt(getArgsValueOf(args, "-ss"));
-  //let minSegDuration = parseInt(getArgsValueOf(args, "-min_seg_duration"));
-  let minSegDuration = 10; // set value to 10 sec
-  let skipToSegment = parseInt(getArgsValueOf(args, "-skip_to_segment"));
-  let segmentStartNumber = parseInt(getArgsValueOf(args, "-segment_start_number"));
-  
-  console.log(`Args => segment_time: ${segmentTime}, ss: ${ss}, min_seg_duration: ${minSegDuration}, skip_to_segment: ${skipToSegment}, segment_start_number: ${segmentStartNumber}`);
-  
-  // If no 'ss' is set, only generate one streaming task
-  if (!ss) {
-      job.addTask(request.type, request.payload);
-      return;
+    let segmentTime = parseInt(getArgsValueOf(args, "-segment_time"));
+    let ss = parseInt(getArgsValueOf(args, "-ss"));
+    let minSegDuration = parseInt(getArgsValueOf(args, "-min_seg_duration"));
+    let skipToSegment = parseInt(getArgsValueOf(args, "-skip_to_segment"));
+    let segmentStartNumber = parseInt(
+      getArgsValueOf(args, "-segment_start_number")
+    );
+
+    console.log(
+      `Args => segment_time: ${segmentTime}, ss: ${ss}, min_seg_duration: ${minSegDuration}, skip_to_segment: ${skipToSegment}, segment_start_number: ${segmentStartNumber}`
+    );
+
+    job.addTask(request.type, request.payload);
+
+    // //if no ss then we only generate one streaming task (at least for now)
+    // if (!ss) {
+    //     job.addTask(request.type, request.payload)
+    //     return
+    // }
+
+    // let segmentDuration = parseInt(minSegDuration / 1000000)
+
+    // const SEGMENTS_PER_NODE = 5
+    // const totalWorkers = 2 // workers.size()
+    // for (let i = 0; i < totalWorkers; i++) {
+    //     console.log(`Multi-part segment ${i + 1}`)
+    //     let newPayload = JSON.parse(JSON.stringify(request.payload))
+    //     let newSs = ss + segmentDuration * SEGMENTS_PER_NODE * i
+    //     setArgsValueOf(newPayload.args, '-ss', newSs)
+    //     setArgsValueOf(newPayload.args, '-skip_to_segment', skipToSegment + SEGMENTS_PER_NODE * i)
+
+    //     //remove start_at_zero argument
+    //     //newPayload.args.splice(newPayload.args.indexOf('-start_at_zero'), 1)
+
+    //     //let iIndex = newPayload.args.indexOf('-i')
+    //     //newPayload.args.splice(iIndex, 0, '-t')
+    //     //newPayload.args.splice(iIndex + 1, 0, segmentDuration * SEGMENTS_PER_NODE)
+    //     job.addTask(request.type, newPayload)
+    //     console.log(`Args => ${newPayload.args}`)
+    // }
   }
-  
-  // Set segment duration directly to minSegDuration
-  let segmentDuration = minSegDuration; // seconds
-  const SEGMENTS_PER_NODE = SEGMENT_BATCH_SIZE;
-  
-  let totalSegments = Math.ceil(segmentTime / segmentDuration);
-  for (let i = 0; i < totalSegments; i++) {
-      console.log(`Creating segment ${i + 1}`);
-      let newPayload = JSON.parse(JSON.stringify(request.payload));
-  
-      // Calculate the new start time for the segment
-      let newSs = ss + segmentDuration * SEGMENTS_PER_NODE * i;
-  
-      // Update the payload arguments with new segment start details
-      setArgsValueOf(newPayload.args, '-ss', newSs);
-      setArgsValueOf(newPayload.args, '-skip_to_segment', skipToSegment + SEGMENTS_PER_NODE * i);
-  
-      job.addTask(request.type, newPayload);
-  }
-}
 
   function getArgsValueOf(arr, key) {
     let i = arr.indexOf(key);
