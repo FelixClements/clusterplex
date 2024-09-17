@@ -9,6 +9,8 @@ else
     apt-get update
     echo "**** install binutils, libatomic1, file, unzip ****"
     apt-get install -y binutils libatomic1 file unzip
+    echo "**** install Intel Drivers ****"
+    apt-get install -y intel-media-va-driver-non-free libigdgmm-dev vainfo
     echo "**** install 'n' ****"
     curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
     echo "**** install nodejs ****"
