@@ -9,6 +9,8 @@ else
     apt-get update
     echo "**** install libatomic1, file, nginx ****"
     apt-get install -y libatomic1 file nginx
+    echo "**** install Intel Drivers ****"
+    apt-get install -y intel-media-va-driver-non-free libigdgmm-dev vainfo
     echo "**** install 'n' ****"
     curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
     echo "**** install nodejs ****"
