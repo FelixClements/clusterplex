@@ -1,0 +1,37 @@
+name: Sync with Upstream Repository
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # This schedules the job to run at midnight (UTC)
+  workflow_dispatch: # Allows manual triggering of the workflow
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v2
+        with:
+          ref: main # Change to your default branch if it's not `main`
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'FelixClements'
+          git config --global user.email 'mvr600@gmail.com'
+
+      - name: Add Upstream Remote
+        run: git remote add upstream https://github.com/pabloromeo/clusterplex.git
+
+      - name: Fetch Upstream Changes
+        run: git fetch upstream
+
+      - name: Merge Upstream Changes
+        run: |
+          git checkout main
+          git merge upstream/main
+
+      - name: Push Changes to Fork
+        run: git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
