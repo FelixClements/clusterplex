@@ -31,8 +31,8 @@
   "panels": [
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "type": "Prometheus",
+        "uid": "Prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -102,8 +102,8 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
+            "type": "Prometheus",
+            "uid": "Prometheus"
           },
           "expr": "sum(workers_active) by (job)",
           "format": "time_series",
@@ -118,8 +118,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "type": "Prometheus",
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -204,8 +204,8 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
+            "type": "Prometheus",
+            "uid": "Prometheus"
           },
           "expr": "avg(worker_load_cpu) by (worker_name)",
           "format": "time_series",
@@ -220,8 +220,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "type": "Prometheus",
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -306,8 +306,8 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
+            "type": "Prometheus",
+            "uid": "Prometheus"
           },
           "expr": "avg(worker_load_rank) by (worker_name)",
           "format": "time_series",
@@ -322,8 +322,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "type": "Prometheus",
+        "uid": "Prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -392,8 +392,8 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
+            "type": "Prometheus",
+            "uid": "Prometheus"
           },
           "expr": "sum(job_posters_active) by (job)",
           "format": "time_series",
@@ -408,8 +408,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "type": "Prometheus",
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -494,8 +494,8 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
+            "type": "Prometheus",
+            "uid": "Prometheus"
           },
           "expr": "sum(worker_load_tasks) by (worker_name)",
           "format": "time_series",
@@ -511,8 +511,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "type": "Prometheus",
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -625,8 +625,8 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
+            "type": "Prometheus",
+            "uid": "Prometheus"
           },
           "expr": "sum(increase(jobs_succeeded[30d])) by (job)",
           "format": "time_series",
@@ -636,8 +636,8 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
+            "type": "Prometheus",
+            "uid": "Prometheus"
           },
           "expr": "sum(increase(jobs_failed[30d])) by (job)",
           "format": "time_series",
@@ -649,8 +649,8 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
+            "type": "Prometheus",
+            "uid": "Prometheus"
           },
           "expr": "sum(increase(jobs_killed[30d])) by (job)",
           "format": "time_series",
@@ -665,8 +665,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "type": "Prometheus",
+        "uid": "Prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -736,8 +736,8 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
+            "type": "Prometheus",
+            "uid": "Prometheus"
           },
           "expr": "sum(increase(jobs_posted[1d])) by (job)",
           "format": "time_series",
@@ -753,8 +753,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "type": "Prometheus",
+        "uid": "Prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -824,8 +824,8 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
+            "type": "Prometheus",
+            "uid": "Prometheus"
           },
           "expr": "sum(increase(jobs_completed[1d])) by (job)",
           "format": "time_series",
@@ -844,7 +844,7 @@
   "schemaVersion": 39,
   "tags": [
     "clusterplex",
-    "prometheus"
+    "Prometheus"
   ],
   "templating": {
     "list": []
