@@ -25,7 +25,7 @@ services:
       start_period: 30s
     volumes:
       - /opt/plex_server/config:/config
-      - /mnt/media/TV-programmes:/data/tv
+      - /mnt/media/TV:/data/tv
       - /mnt/media/Music:/data/music
       - /mnt/media/Films:/data/movies
       - /mnt/glusterfs/plex_server/transcode:/transcode
@@ -93,7 +93,7 @@ services:
       start_period: 240s
     volumes:
       - /opt/plex_worker/codecs:/codecs # (optional)
-      - /mnt/media/TV-programmes:/data/tv
+      - /mnt/media/TV:/data/tv
       - /mnt/media/Films:/data/movies
       - /mnt/media/Music:/data/music
       - /mnt/glusterfs/plex_server/transcode:/transcode
