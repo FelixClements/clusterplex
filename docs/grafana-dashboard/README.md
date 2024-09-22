@@ -10,4 +10,5 @@
 The docker-compose.yml file will spin up both Prometheus and Grafana. In this file, you'll likely need to adjust the volume paths depending on where your data is stored on your host machine.
 
 Grafna default username: admin
+
 Grafna default password: jerogahreogheaohhgeogearuhge
