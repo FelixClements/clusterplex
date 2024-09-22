@@ -17,7 +17,5 @@ It has been tested on Kubernetes and Docker Swarm.
 See the [docs](docs/) section for details on each component's configuration parameters and example configurations both on Kubernetes and Docker Swarm.
 
 * [Configuration Parameters](docs/)
-* [On Kubernetes](docs/kubernetes/)
 * [On Docker Swarm](docs/docker-swarm/)
 * [Grafana Dashboard and Metrics](docs/grafana-dashboard/)
-* [On Kubernetes via Helm](https://pabloromeo.github.io/clusterplex)
