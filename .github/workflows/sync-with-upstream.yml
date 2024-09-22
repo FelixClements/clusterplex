@@ -10,28 +10,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Use latest checkout action (v3)
       - name: Checkout the Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: main # Change to your default branch if it's not `main`
 
+      # 2. Set up Git configuration with user details
       - name: Set up Git
         run: |
           git config --global user.name 'FelixClements'
           git config --global user.email 'mvr600@gmail.com'
 
+      # 3. Add upstream remote
       - name: Add Upstream Remote
         run: git remote add upstream https://github.com/pabloromeo/clusterplex.git
 
+      # 4. Fetch upstream changes
       - name: Fetch Upstream Changes
         run: git fetch upstream
 
+      # 5. Checkout and merge upstream changes
+      # Make sure to handle fast-forward scenarios gracefully
       - name: Merge Upstream Changes
         run: |
           git checkout main
-          git merge upstream/main
+          git merge upstream/main --no-edit || git merge --abort
 
+      # 6. Push changes to your fork only if there are no conflicts
       - name: Push Changes to Fork
+        if: success()  # Only run if merge was successful
         run: git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
