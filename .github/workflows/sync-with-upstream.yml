@@ -1,4 +1,4 @@
-name: Sync with Upstream Repository
+name: Sync Specific Folders from Upstream Repository
 
 on:
   schedule:
@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Use the latest checkout action (v4)
-      - name: Checkout the Repository
+      # 1. Use checkout action v4
+      - name: Checkout the repository
         uses: actions/checkout@v4
         with:
-          ref: master # Changed to 'master' as per your setup
+          ref: master # Ensure you're checking out your master branch
 
       # 2. Set up Git user details
       - name: Set up Git
@@ -22,15 +22,21 @@ jobs:
           git config --global user.name 'FelixClements'
           git config --global user.email 'mvr600@gmail.com'
 
-      # 3. Add the upstream remote (where you want to pull changes from)
-      - name: Add Upstream Remote
-        run: git remote add upstream https://github.com/pabloromeo/clusterplex.git
+      # 3. Enable sparse-checkout and add upstream remote
+      - name: Enable Sparse Checkout for specific folders
+        run: |
+          git remote add upstream https://github.com/pabloromeo/clusterplex.git
+          git fetch upstream
 
-      # 4. Fetch upstream changes
-      - name: Fetch Upstream Changes
-        run: git fetch upstream --verbose
+          # Initialize sparse-checkout
+          git sparse-checkout init
 
-      # 5. Attempt to merge upstream/master
+          # Add directories you care about, replace with your directories
+          git sparse-checkout set orchestrator pms worker
+
+          echo "Sparse checkout setup, the following directories will be synced: folder1, folder2."
+
+      # 4. Merge upstream changes but only for those sparse directories
       - name: Merge Upstream Changes
         run: |
           echo "Checking out the local master branch..."
@@ -39,14 +45,14 @@ jobs:
             exit 1
           fi
 
-          echo "Merging changes from upstream/master while allowing unrelated histories..."
+          echo "Merging changes from upstream/master..."
           if ! git merge upstream/master --no-edit --allow-unrelated-histories; then
             echo "Merge conflict or error detected during the merge. Aborting." >&2
             git merge --abort || echo "No merge to abort."
             exit 1
           fi
 
-      # 6. Push back to your fork only if the merge succeeds
+      # 5. Push changes back to your fork only if successful
       - name: Push Changes to Fork
         if: success()
         run: git push origin master
