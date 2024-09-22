@@ -84,7 +84,6 @@ services:
       EAE_SUPPORT: "1"
       FFMPEG_HWACCEL: vaapi
       LIBVA_DRIVER_NAME: iHD
-      #LIBVA_DRIVERS_PATH: /usr/lib/x86_64-linux-gnu/dri
     healthcheck:
       test: curl -fsS http://localhost:3501/health > /dev/null || exit 1
       interval: 15s
