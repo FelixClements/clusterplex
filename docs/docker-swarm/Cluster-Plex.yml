@@ -24,14 +24,14 @@ services:
       retries: 5
       start_period: 30s
     volumes:
-      - /opt/plex_server/config:/config
-      - /mnt/media/TV:/data/tv
-      - /mnt/media/Music:/data/music
-      - /mnt/media/Films:/data/movies
-      - /mnt/glusterfs/plex_server/transcode:/transcode
-      - /mnt/glusterfs/plex_server/Drivers:/config/Library/Application Support/Plex Media Server/Drivers
-      - /mnt/glusterfs/plex_server/Cache:/config/Library/Application Support/Plex Media Server/Cache
-      - /dev/dri/:/dev/dri/
+      - /path/to/config:/config
+      - /path/to/shared/media/TV:/data/tv
+      - /path/to/shared/media/Music:/data/music
+      - /path/to/shared/media/Films:/data/movies
+      - /path/to/shared/plex_server/transcode:/transcode
+      - /path/to/shared/plex_server/Drivers:/config/Library/Application Support/Plex Media Server/Drivers # Needed for hardware transcoding
+      - /path/to/shared/plex_server/Cache:/config/Library/Application Support/Plex Media Server/Cache # Needed for hardware transcoding
+      - /dev/dri/:/dev/dri/ # intel GPU 
     devices:
       - /dev/dri:/dev/dri
     networks:
@@ -91,14 +91,14 @@ services:
       retries: 5
       start_period: 240s
     volumes:
-      - /opt/plex_worker/codecs:/codecs # (optional)
-      - /mnt/media/TV:/data/tv
-      - /mnt/media/Films:/data/movies
-      - /mnt/media/Music:/data/music
-      - /mnt/glusterfs/plex_server/transcode:/transcode
-      - /mnt/glusterfs/plex_server/Drivers:/config/Library/Application Support/Plex Media Server/Drivers
-      - /mnt/glusterfs/plex_server/Cache:/config/Library/Application Support/Plex Media Server/Cache
-      - /dev/dri/:/dev/dri/
+      - /path/to/plex_worker/codecs:/codecs # (optional)
+      - /path/to/shared/media/TV:/data/tv
+      - /path/to/shared/media/Films:/data/movies
+      - /path/to/shared/media/Music:/data/music
+      - /path/to/shared/plex_server/transcode:/transcode
+      - /path/to/shared/plex_server/Drivers:/config/Library/Application Support/Plex Media Server/Drivers # Needed for hardware transcoding
+      - /path/to/shared/plex_server/Cache:/config/Library/Application Support/Plex Media Server/Cache # Needed for hardware transcoding
+      - /dev/dri/:/dev/dri/ # intel GPU 
     devices:
       - /dev/dri:/dev/dri
     networks:
