@@ -7,7 +7,7 @@
 
 This fork of ClusterPlex is tailored to focus specifically on Docker Swarm, with enhanced support for Intel hardware transcoding and docs and how to deploy a monitoring stack. 
 
-ClusterPlex itself is an extended version of [Plex](https://plex.tv) that allows you to distribute transcoding tasks across a cluster using dedicated Workers. This fork aims to make it easier to leverage Docker Swarm environments, integrate Intel Quick Sync Video (QSV) hardware acceleration for transcoding, and offer built-in monitoring options through Grafana and Prometheus.
+ClusterPlex itself is an extended version of [Plex](https://plex.tv) that allows you to distribute transcoding tasks across a cluster using dedicated Workers. This fork aims to make it easier to leverage Docker Swarm environments, integrate Intel hardware acceleration for transcoding, and offer built-in monitoring options through Grafana and Prometheus.
 
 ![Docker Swarm](docs/images/docker-swarm-logo-small.png)
 
