@@ -2,7 +2,7 @@ name: Sync with Upstream Repository
 
 on:
   schedule:
-    - cron: '0 0 * * *' # This schedules the job to run at midnight UTC
+    - cron: '0 0 * * *' # Scheduled for midnight UTC
   workflow_dispatch: # Allows manual triggering of the workflow
 
 jobs:
@@ -10,45 +10,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Use checkout action v4 (latest version)
+      # 1. Use the latest checkout action (v4)
       - name: Checkout the Repository
         uses: actions/checkout@v4
         with:
-          ref: master 
+          ref: master # Changed to 'master' as per your setup
 
-      # 2. Set up Git user information
+      # 2. Set up Git user details
       - name: Set up Git
         run: |
           git config --global user.name 'FelixClements'
           git config --global user.email 'mvr600@gmail.com'
 
-      # 3. Add upstream remote repository
+      # 3. Add the upstream remote (where you want to pull changes from)
       - name: Add Upstream Remote
         run: git remote add upstream https://github.com/pabloromeo/clusterplex.git
 
-      # 4. Fetch upstream changes with verbose logging to troubleshoot issues
+      # 4. Fetch upstream changes
       - name: Fetch Upstream Changes
         run: git fetch upstream --verbose
 
-      # 5. Merge changes from upstream/main into local main, handle conflicts
+      # 5. Attempt to merge upstream/master
       - name: Merge Upstream Changes
         run: |
-          echo "Checking out the local main branch..."
+          echo "Checking out the local master branch..."
           if ! git checkout master; then
-            echo "Error: Failed to checkout the main branch." >&2
+            echo "Error: Failed to checkout master branch." >&2
             exit 1
           fi
 
-          echo "Merging changes from upstream/main..."
-          if ! git merge upstream/master --no-edit; then
+          echo "Merging changes from upstream/master while allowing unrelated histories..."
+          if ! git merge upstream/master --no-edit --allow-unrelated-histories; then
             echo "Merge conflict or error detected during the merge. Aborting." >&2
-            git merge --abort
+            git merge --abort || echo "No merge to abort."
             exit 1
           fi
 
-      # 6. Push changes back to your fork only if no merge conflict
+      # 6. Push back to your fork only if the merge succeeds
       - name: Push Changes to Fork
-        if: success()  # Only push if previous steps, including merge, did not fail
-        run: git push origin main
+        if: success()
+        run: git push origin master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
