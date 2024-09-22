@@ -2,7 +2,7 @@ name: Sync with Upstream Repository
 
 on:
   schedule:
-    - cron: '0 0 * * *' # This schedules the job to run at midnight (UTC)
+    - cron: '0 0 * * *' # This schedules the job to run at midnight UTC
   workflow_dispatch: # Allows manual triggering of the workflow
 
 jobs:
@@ -10,38 +10,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Use the latest checkout action (v3)
+      # 1. Use checkout action v4 (latest version)
       - name: Checkout the Repository
         uses: actions/checkout@v4
         with:
-          ref: main # Change to your default branch if it's not `main`
+          ref: main # Adjust this if your default branch isn't 'main'
 
-      # 2. Set up Git configuration
+      # 2. Set up Git user information
       - name: Set up Git
         run: |
           git config --global user.name 'FelixClements'
           git config --global user.email 'mvr600@gmail.com'
 
-      # 3. Add upstream remote to the original repo
+      # 3. Add upstream remote repository
       - name: Add Upstream Remote
         run: git remote add upstream https://github.com/pabloromeo/clusterplex.git
 
-      # 4. Fetch upstream changes with verbose output
+      # 4. Fetch upstream changes with verbose logging to troubleshoot issues
       - name: Fetch Upstream Changes
         run: git fetch upstream --verbose
 
-      # 5. Checkout and merge the upstream changes safely
-      - name: Checkout and Merge
+      # 5. Merge changes from upstream/main into local main, handle conflicts
+      - name: Merge Upstream Changes
         run: |
-          echo "Checking out main branch"
-          git checkout main || (echo "Error: Failed to checkout main branch" && exit 1)
+          echo "Checking out the local main branch..."
+          if ! git checkout main; then
+            echo "Error: Failed to checkout the main branch." >&2
+            exit 1
+          fi
 
-          echo "Attempting to merge upstream changes"
-          git merge upstream/main --no-edit || (echo "Merge conflict or error during merge - aborting." && git merge --abort && exit 1)
-        
-      # 6. Push changes back to the origin only if everything is fine
+          echo "Merging changes from upstream/main..."
+          if ! git merge upstream/main --no-edit; then
+            echo "Merge conflict or error detected during the merge. Aborting." >&2
+            git merge --abort
+            exit 1
+          fi
+
+      # 6. Push changes back to your fork only if no merge conflict
       - name: Push Changes to Fork
-        if: success()
+        if: success()  # Only push if previous steps, including merge, did not fail
         run: git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
