@@ -34,13 +34,13 @@ jobs:
       - name: Merge Upstream Changes
         run: |
           echo "Checking out the local main branch..."
-          if ! git checkout main; then
+          if ! git checkout master; then
             echo "Error: Failed to checkout the main branch." >&2
             exit 1
           fi
 
           echo "Merging changes from upstream/main..."
-          if ! git merge upstream/main --no-edit; then
+          if ! git merge upstream/master --no-edit; then
             echo "Merge conflict or error detected during the merge. Aborting." >&2
             git merge --abort
             exit 1
