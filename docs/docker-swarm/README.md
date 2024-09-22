@@ -1,6 +1,7 @@
 ![docker-swarm](../images/docker-swarm-logo-small.png)
 
 Examples for Docker Swarm
+
 Here you will find examples for deploying Cluster-Plex with hardware transcoding using Docker Swarm.
 
 Important:
