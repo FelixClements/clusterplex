@@ -1,6 +1,5 @@
 ## Deployment Examples
 
-* [Deploying on Kubernetes](kubernetes/)
 * [Deploying on Docker Swarm](docker-swarm/)
 * [Grafana Dashboard Example](grafana-dashboard/)
 
