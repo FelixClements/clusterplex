@@ -12,7 +12,7 @@ jobs:
     steps:
       # 1. Use the latest checkout action (v3)
       - name: Checkout the Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: main # Change to your default branch if it's not `main`
 
