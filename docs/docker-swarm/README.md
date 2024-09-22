@@ -3,6 +3,6 @@
 
 ## Examples for Docker Swarm
 
-Here you can find examples for deploying using both approaches:
-* [Using Dockermods](with-dockermods.yaml)
-* [Using ClusterPlex images](with-custom-images.yaml)
+Here you can find examples for deploying cluster-plex with hw transcodeing using docker-swarm. 
+* first deploy the device-manager stack as this is needed to give the plex stack access to the cpu [device-manager.yml]
+* 
