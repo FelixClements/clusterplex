@@ -3,10 +3,6 @@ version: '3.8'
 services:
   server:
     image: ghcr.io/felixclements/clusterplex_pms:master
-    deploy:
-      placement:
-        constraints:
-          - node.hostname==server01
     environment:
       VERSION: docker
       PUID: 1000
@@ -53,10 +49,6 @@ services:
 
   orchestrator:
     image: ghcr.io/felixclements/clusterplex_orchestrator:master
-    deploy:
-      placement:
-        constraints:
-          - node.hostname==server02
       update_config:
         order: start-first
     healthcheck:
