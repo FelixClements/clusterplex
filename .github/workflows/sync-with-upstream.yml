@@ -1,59 +1,53 @@
-name: Sync Specific Folders from Upstream Repository
+name: Sync Specific Sub-Folders from Upstream Repository
 
 on:
   schedule:
     - cron: '0 0 * * *' # Scheduled for midnight UTC
-  workflow_dispatch: # Allows manual triggering of the workflow
+  workflow_dispatch:
 
 jobs:
   sync:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Use checkout action v4
+      # 1. Checkout your own master branch
       - name: Checkout the repository
         uses: actions/checkout@v4
         with:
-          ref: master # Ensure you're checking out your master branch
+          ref: master
 
-      # 2. Set up Git user details
+      # 2. Setup git user details
       - name: Set up Git
         run: |
           git config --global user.name 'FelixClements'
           git config --global user.email 'mvr600@gmail.com'
 
-      # 3. Enable sparse-checkout and add upstream remote
-      - name: Enable Sparse Checkout for specific folders
+      # 3. Initialize sparse-checkout and add the upstream fork
+      - name: Enable Sparse Checkout for specific sub-folders
         run: |
+          # Add upstream repo
           git remote add upstream https://github.com/pabloromeo/clusterplex.git
           git fetch upstream
 
           # Initialize sparse-checkout
           git sparse-checkout init
 
-          # Add directories you care about, replace with your directories
-          git sparse-checkout set orchestrator pms worker
+          # Add sub-folders (adjust paths to your needs)
+          git sparse-checkout set orchestrator pms/app worker/app
 
-          echo "Sparse checkout setup, the following directories will be synced: folder1, folder2."
+          echo "Sparse checkout setup complete. Syncing selected sub-directories only!"
 
-      # 4. Merge upstream changes but only for those sparse directories
-      - name: Merge Upstream Changes
+      # 4. Merge upstream changes for selected sub-folders only
+      - name: Merging changes from upstream/master for selected folders
         run: |
-          echo "Checking out the local master branch..."
-          if ! git checkout master; then
-            echo "Error: Failed to checkout master branch." >&2
-            exit 1
-          fi
+          # Ensure we're on your local master branch
+          git checkout master
 
-          echo "Merging changes from upstream/master..."
-          if ! git merge upstream/master --no-edit --allow-unrelated-histories; then
-            echo "Merge conflict or error detected during the merge. Aborting." >&2
-            git merge --abort || echo "No merge to abort."
-            exit 1
-          fi
+          # Merge changes from upstream/master
+          git merge upstream/master --no-edit --allow-unrelated-histories
 
-      # 5. Push changes back to your fork only if successful
-      - name: Push Changes to Fork
+      # 5. Push changes if merge was successful
+      - name: Push changes to your fork
         if: success()
         run: git push origin master
         env:
